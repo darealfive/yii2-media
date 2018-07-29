@@ -1,0 +1,14 @@
+{
+    "name": "darealfive/yii2-media-module"
+    "description": "A Yii2 framework module to manage media data and categorizes and provides them via an API.",
+    "license": "BSD-3-Clause",
+    "type": "yii2-extension",
+    "authors": [
+        {
+            "name": "Darealfive",
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "~2.0.0",
+    },
+}
