@@ -22,7 +22,6 @@ class Module extends \darealfive\base\Module
     public function init()
     {
         parent::init();
-        echo $this->imageBasePath;
         if (!is_dir($this->imageBasePath)) {
 
             throw new InvalidConfigException(sprintf('Path "%s" is not a directory', $this->imageBasePath));
