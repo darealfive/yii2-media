@@ -78,12 +78,9 @@ class ImageController extends Controller
             'basePath' => Yii::getAlias('@images')
         ]);
 
-        if ($model->load(Yii::$app->request->post())) {
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            if ($model->save()) {
-
-                return $this->redirect(['view', 'id' => $model->id]);
-            }
+            return $this->redirect(['view', 'id' => $model->id]);
         }
 
         return $this->render('create', [
