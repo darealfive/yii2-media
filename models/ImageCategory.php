@@ -2,9 +2,6 @@
 
 namespace darealfive\media\models;
 
-use yii\db\ActiveQuery;
-use yii\db\ActiveRecord;
-
 /**
  * This is the model class for table "image_category".
  */

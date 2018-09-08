@@ -2,9 +2,6 @@
 
 namespace darealfive\media\models;
 
-use darealfive\base\CacheableActiveRecord;
-use yii\db\ActiveQuery;
-
 /**
  * This is the model class for table "category".
  */

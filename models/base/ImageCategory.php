@@ -2,7 +2,7 @@
 
 namespace darealfive\media\models\base;
 
-use darealfive\base\ActiveRecord;
+use darealfive\base\components\ActiveRecord;
 use yii\db\ActiveQuery;
 
 /**
