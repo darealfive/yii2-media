@@ -3,7 +3,7 @@
 namespace darealfive\media\migrations;
 
 use darealfive\base\Migration;
-use common\models\Category;
+use darealfive\media\models\base\Category;
 
 /**
  * Class m180721_092530_create_table_category

@@ -3,9 +3,9 @@
 namespace darealfive\media\migrations;
 
 use darealfive\base\Migration as BaseMigration;
-use common\models\ImageCategory;
-use common\models\Category;
-use common\models\Image;
+use darealfive\media\models\base\ImageCategory;
+use darealfive\media\models\base\Category;
+use darealfive\media\models\base\Image;
 
 /**
  * Class m180721_093309_create_table_image_category

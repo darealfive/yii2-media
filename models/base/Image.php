@@ -9,7 +9,7 @@ use yii\db\ActiveQuery;
  * This is the model class for table "image".
  *
  * @property int             $id
- * @property string          $uri
+ * @property string          $name
  * @property string          $alt
  *
  * The followings are the available model relations:
@@ -32,9 +32,9 @@ abstract class Image extends CacheableActiveRecord
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'id'  => 'ID',
-            'uri' => 'URI',
-            'alt' => 'Alternative text',
+            'id'   => 'ID',
+            'name' => 'Name',
+            'alt'  => 'Alternative text',
         ]);
     }
 
