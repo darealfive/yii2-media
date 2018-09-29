@@ -3,13 +3,16 @@
 namespace darealfive\media\controllers;
 
 use Yii;
+use yii\base\ModelEvent;
+use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
 use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
 use darealfive\media\models\Image;
+use darealfive\media\models\UploadImage;
+use darealfive\base\behaviors\message\MessageEvent;
+use darealfive\base\behaviors\message\MessageReceiver;
 use darealfive\media\models\search\Image as ImageSearch;
-
-Yii::$container->set('uploadedImage', [Image::class, 'buildUploadedInstance']);
 
 /**
  * ImageController implements the CRUD actions for Image model.
@@ -72,10 +75,15 @@ class ImageController extends Controller
      */
     public function actionCreate()
     {
-        /** @var Image $model */
-        $model = Yii::$container->get('uploadedImage', [], [
-            'scenario' => Image::SCENARIO_UPLOAD,
-            'basePath' => Yii::getAlias('@images')
+        $onBeforeValidate = sprintf('on %s', UploadImage::EVENT_BEFORE_VALIDATE);
+        $model            = new UploadImage([
+            'scenario'        => UploadImage::SCENARIO_UPLOAD,
+            'basePath'        => Yii::getAlias('@images'),
+            $onBeforeValidate => function (ModelEvent $event) {
+                /** @var UploadImage $model */
+                $model = $event->sender;
+                $model->setFile(UploadedFile::getInstance($model, 'file'));
+            }
         ]);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {

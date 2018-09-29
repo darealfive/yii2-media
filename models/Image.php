@@ -5,8 +5,6 @@ namespace darealfive\media\models;
 use Yii;
 use yii\base\Event;
 use yii\di\Container;
-use yii\web\UploadedFile;
-use yii\validators\ImageValidator;
 use UnexpectedValueException;
 
 /**
@@ -14,17 +12,10 @@ use UnexpectedValueException;
  */
 class Image extends base\Image
 {
-    const SCENARIO_UPLOAD = 'upload';
-
     /**
-     * @var string $_basePath where to store an uploaded image
+     * @var string $_basePath where to store an image
      */
-    private $_basePath;
-
-    /**
-     * @var UploadedFile
-     */
-    private $_file;
+    protected $_basePath;
 
     /**
      * @param string $basePath
@@ -32,25 +23,6 @@ class Image extends base\Image
     public function setBasePath($basePath)
     {
         $this->_basePath = rtrim($basePath, DIRECTORY_SEPARATOR);
-    }
-
-    public function getFile()
-    {
-        if ($this->_file instanceof UploadedFile) {
-
-            return $this->_file;
-        }
-
-        return $this->name;
-    }
-
-    /**
-     * @param UploadedFile $file
-     */
-    public function setFile(UploadedFile $file)
-    {
-        $this->_file = $file;
-        $this->name  = $this->_file->baseName . '.' . $this->_file->extension;
     }
 
     /**
@@ -63,11 +35,6 @@ class Image extends base\Image
             [['alt'], 'required'],
             [['name', 'alt'], 'string', 'max' => 64],
             [['name'], 'unique', 'on' => self::SCENARIO_DEFAULT],
-
-            [['file'], 'unique', 'targetAttribute' => ['name'], 'on' => self::SCENARIO_UPLOAD],
-            [['file'], 'required', 'on' => self::SCENARIO_UPLOAD],
-            [['file'], ImageValidator::class, 'skipOnEmpty' => false, 'extensions' => 'png, jpg',
-             'on'                                           => self::SCENARIO_UPLOAD],
         ];
     }
 
@@ -75,26 +42,7 @@ class Image extends base\Image
     {
         return [
             self::SCENARIO_DEFAULT => ['name', 'alt'],
-            self::SCENARIO_UPLOAD  => ['!name', '!file', 'alt'],
         ];
-    }
-
-    /**
-     * @return array
-     */
-    public function transactions()
-    {
-        return [
-            self::SCENARIO_UPLOAD => self::OP_INSERT
-        ];
-    }
-
-    protected function upload()
-    {
-        if (!$this->_file->saveAs($this->_basePath . DIRECTORY_SEPARATOR . $this->name)) {
-
-            throw new UnexpectedValueException(sprintf('Can not upload file to %s', $this->name));
-        }
     }
 
     /**
