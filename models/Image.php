@@ -44,28 +44,4 @@ class Image extends base\Image
             self::SCENARIO_DEFAULT => ['name', 'alt'],
         ];
     }
-
-    /**
-     * @param Container $container
-     * @param array     $params
-     * @param array     $config
-     *
-     * @return Image
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\di\NotInstantiableException
-     */
-    public static function buildUploadedInstance(Container $container, array $params, array $config): self
-    {
-        /** @var static $image */
-        $image = Yii::$container->get(static::class, $params, $config);
-        $image->on($image::EVENT_BEFORE_VALIDATE, function (Event $event) {
-            /** @var static $image */
-            $image = $event->sender;
-            $image->setFile(UploadedFile::getInstance($image, 'file'));
-        });
-
-        $image->on(self::EVENT_AFTER_INSERT, [$image, 'upload']);
-
-        return $image;
-    }
 }

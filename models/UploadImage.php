@@ -79,10 +79,6 @@ class UploadImage extends Image
 
     public function rules()
     {
-        Module::messageSenderBehavior($this)->sendMessage(
-            sprintf('Can not unlink old image %s', $oldName),
-            MessageSender::MESSAGE_CATEGORY_WARNING
-        );
         return array_merge(parent::rules(), [
             [['file'], 'unique', 'targetAttribute' => ['name'], 'on' => self::SCENARIO_UPLOAD],
             [['file'], 'required', 'on' => self::SCENARIO_UPLOAD],
