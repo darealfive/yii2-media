@@ -2,11 +2,6 @@
 
 namespace darealfive\media\models;
 
-use Yii;
-use yii\base\Event;
-use yii\di\Container;
-use UnexpectedValueException;
-
 /**
  * This is the model class for table "image".
  */

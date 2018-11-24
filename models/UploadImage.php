@@ -7,9 +7,9 @@
 
 namespace darealfive\media\models;
 
+use UnexpectedValueException;
 use darealfive\base\behaviors\message\MessageSender;
 use darealfive\media\Module;
-use Yii;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yii\validators\ImageValidator;

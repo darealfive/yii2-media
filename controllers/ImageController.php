@@ -2,6 +2,7 @@
 
 namespace darealfive\media\controllers;
 
+use Throwable;
 use Yii;
 use yii\base\ModelEvent;
 use yii\web\UploadedFile;
@@ -10,8 +11,6 @@ use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
 use darealfive\media\models\Image;
 use darealfive\media\models\UploadImage;
-use darealfive\base\behaviors\message\MessageEvent;
-use darealfive\base\behaviors\message\MessageReceiver;
 use darealfive\media\models\search\Image as ImageSearch;
 
 /**
@@ -126,8 +125,8 @@ class ImageController extends Controller
      *
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * @throws Throwable
+     * @throws StaleObjectException
      */
     public function actionDelete($id)
     {
