@@ -12,6 +12,7 @@ use Yii;
  * Class Controller
  *
  * @package darealfive\media\controllers
+ *
  * @property Module $module
  *
  * @method handleMessageSent(callable $handler, $data = null, $append = true)
