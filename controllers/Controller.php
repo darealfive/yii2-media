@@ -4,7 +4,7 @@ namespace darealfive\media\controllers;
 
 use darealfive\base\behaviors\message\MessageReceiver;
 use darealfive\base\behaviors\message\MessageEvent;
-use darealfive\base\Controller as BaseController;
+use darealfive\base\controllers\Controller as BaseController;
 use darealfive\media\Module;
 use Yii;
 
