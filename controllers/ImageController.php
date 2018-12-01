@@ -77,7 +77,7 @@ class ImageController extends Controller
         $onBeforeValidate = sprintf('on %s', UploadImage::EVENT_BEFORE_VALIDATE);
         $model            = new UploadImage([
             'scenario'        => UploadImage::SCENARIO_UPLOAD,
-            'basePath'        => Yii::getAlias('@images'),
+            'basePath'        => $this->module->imageBasePath,
             $onBeforeValidate => function (ModelEvent $event) {
                 /** @var UploadImage $model */
                 $model = $event->sender;
