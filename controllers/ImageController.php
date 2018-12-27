@@ -2,24 +2,26 @@
 
 namespace darealfive\media\controllers;
 
-use Throwable;
+use darealfive\base\components\ActiveRecord;
+use darealfive\base\interfaces\ModelFinder;
+use darealfive\base\traits\ModelFinder as ModelFinderTrait;
 use Yii;
 use yii\base\ModelEvent;
 use yii\web\UploadedFile;
 use yii\filters\VerbFilter;
-use yii\db\StaleObjectException;
 use yii\web\NotFoundHttpException;
 use darealfive\media\models\Image;
 use darealfive\media\models\UploadImage;
-use darealfive\media\models\search\Image as ImageSearch;
 
 /**
  * ImageController implements the CRUD actions for Image model.
  *
  * @package darealfive\media\controllers
  */
-class ImageController extends Controller
+class ImageController extends Controller implements ModelFinder
 {
+    use ModelFinderTrait;
+
     /**
      * {@inheritdoc}
      */
@@ -29,40 +31,33 @@ class ImageController extends Controller
             'verbs' => [
                 'class'   => VerbFilter::class,
                 'actions' => [
-                    'delete' => ['POST'],
+                    static::DELETE => ['POST'],
                 ],
             ],
         ]);
     }
 
-    /**
-     * Lists all Image models.
-     *
-     * @return mixed
-     */
-    public function actionIndex()
+    public function actions()
     {
-        $searchModel  = new ImageSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel'  => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single Image model.
-     *
-     * @param integer $id
-     *
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
+        return array_merge(parent::actions(), [
+            /*
+             * Lists all image models
+             */
+            static::INDEX  => [
+                'class' => actions\image\Index::class,
+            ],
+            /*
+             * Displays a single Image model.
+             */
+            static::READ   => [
+                'class' => actions\image\View::class
+            ],
+            /*
+             * Deletes an existing Image model.
+             */
+            static::DELETE => [
+                'class' => actions\image\Delete::class
+            ],
         ]);
     }
 
@@ -106,7 +101,7 @@ class ImageController extends Controller
      */
     public function actionUpdate($id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel($id, new UploadImage());
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -118,38 +113,12 @@ class ImageController extends Controller
     }
 
     /**
-     * Deletes an existing Image model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
+     * Gets the desired model to be found by @see findModel
      *
-     * @param integer $id
-     *
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     * @throws Throwable
-     * @throws StaleObjectException
+     * @return ActiveRecord
      */
-    public function actionDelete($id)
+    protected function getModel(): ActiveRecord
     {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Image model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     *
-     * @param integer $id
-     *
-     * @return Image the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Image::findOne($id)) !== null) {
-            return $model;
-        }
-
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return new Image();
     }
 }

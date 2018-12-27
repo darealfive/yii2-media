@@ -2,14 +2,16 @@
 
 namespace darealfive\media\models\search;
 
+use darealfive\base\interfaces\Searchable;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use darealfive\media\models\base\Image as ImageModel;
+use yii\data\BaseDataProvider;
 
 /**
  * Image represents the model behind the search form of `darealfive\media\models\base\Image`.
  */
-class Image extends ImageModel
+class Image extends ImageModel implements Searchable
 {
     /**
      * {@inheritdoc}
@@ -38,7 +40,7 @@ class Image extends ImageModel
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search(array $params = []): BaseDataProvider
     {
         $query = $this::find();
 
