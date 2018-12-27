@@ -82,7 +82,7 @@ class ImageController extends Controller implements ModelFinder
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([static::READ, 'id' => $model->primaryKey]);
         }
 
         return $this->render('create', [
@@ -104,7 +104,7 @@ class ImageController extends Controller implements ModelFinder
         $model = $this->findModel($id, new UploadImage());
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect([static::READ, 'id' => $model->primaryKey]);
         }
 
         return $this->render('update', [
